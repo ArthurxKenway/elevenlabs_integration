@@ -1,8 +1,8 @@
 const { ElevenLabsClient } = require("@elevenlabs/elevenlabs-node");
 
 module.exports = async (req, res) => {
-  // Set CORS headers for all responses
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins for testing
+  // Set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -27,7 +27,8 @@ module.exports = async (req, res) => {
       res.setHeader("Content-Type", "audio/mpeg");
       audio.pipe(res);
     } catch (error) {
-      res.status(500).json({ error: "Failed to generate audio" });
+      console.error("Error generating audio:", error.message);
+      res.status(500).json({ error: "Failed to generate audio", details: error.message });
     }
   } else {
     res.status(405).json({ error: "Method not allowed" });
