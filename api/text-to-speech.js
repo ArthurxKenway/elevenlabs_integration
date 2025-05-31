@@ -1,4 +1,4 @@
-const { ElevenLabsClient } = require("@elevenlabs/elevenlabs-node");
+const { ElevenLabsClient } = require("@elevenlabs/elevenlabs-js");
 
 module.exports = async (req, res) => {
   // Set CORS headers
@@ -18,10 +18,9 @@ module.exports = async (req, res) => {
       if (!text) return res.status(400).json({ error: "Text is required" });
 
       const client = new ElevenLabsClient({ apiKey: process.env.ELEVENLABS_API_KEY });
-      const audio = await client.generate({
+      const audio = await client.textToSpeech.convert("EXAVITQu4vr4xnSDxMaL", {
         text: text.slice(0, 1000), // Limit to 1000 chars for free plan
-        voice: "EXAVITQu4vr4xnSDxMaL", // Bella voice
-        model_id: "eleven_multilingual_v2"
+        modelId: "eleven_multilingual_v2"
       });
 
       res.setHeader("Content-Type", "audio/mpeg");
